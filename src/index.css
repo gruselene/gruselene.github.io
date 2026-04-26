@@ -1,0 +1,139 @@
+@import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,700;1,400&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-mystic-950 text-mystic-100 font-sans antialiased;
+    background-image: radial-gradient(circle at 50% 50%, #1a1a20 0%, #0a0a0c 100%);
+    position: relative;
+  }
+
+  body::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('https://www.transparenttextures.com/patterns/stardust.png');
+    opacity: 0.15;
+    pointer-events: none;
+    z-index: 100;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-serif tracking-wide;
+    text-shadow: 0 0 20px rgba(255, 191, 0, 0.15);
+  }
+}
+
+@layer components {
+  .mystic-card {
+    @apply bg-mystic-900/60 backdrop-blur-md rounded-none shadow-2xl transition-all duration-700;
+    position: relative;
+    /* 将包边直接实现在卡片本体上 */
+    border: 40px solid transparent;
+    border-image-source: url('/gold-frame.png');
+    border-image-slice: 35%;
+    border-image-width: 40px;
+    border-image-repeat: round;
+    /* 移除所有多余的内边框和外边距，确保一体感 */
+    margin: 0;
+    background-clip: border-box;
+  }
+
+  .mystic-card:hover {
+    filter: drop-shadow(0 0 8px rgba(255, 191, 0, 0.4));
+    transform: translateY(-4px);
+  }
+
+  .mystic-card::before {
+    @apply px-6 py-2 font-serif border border-gold-600 text-gold-500 hover:bg-gold-500 hover:text-mystic-950 transition-all duration-300 tracking-widest uppercase text-sm;
+    box-shadow: 0 0 10px rgba(255, 191, 0, 0.1);
+  }
+
+  .mystic-link {
+    @apply text-gold-400 hover:text-gold-300 transition-colors duration-300 font-serif italic;
+  }
+
+  /* 华丽的分隔线 */
+  .ornate-divider {
+    @apply flex items-center justify-center space-x-4 my-12 opacity-40;
+  }
+  .ornate-divider::before, .ornate-divider::after {
+    content: '';
+    @apply h-px flex-grow bg-gradient-to-r from-transparent via-gold-500 to-transparent;
+  }
+  /* 徽章风格的装饰符号 */
+  .ornate-symbol {
+    @apply w-12 h-12 relative flex items-center justify-center;
+  }
+
+  .ornate-symbol::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-image: url('/alienis.svg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    /* 如果 SVG 本身没有颜色，可以使用 filter 调整为金色 */
+    filter: drop-shadow(0 0 2px rgba(255, 191, 0, 0.5));
+  }
+
+  /* 首字下沉 */
+  .drop-cap::first-letter {
+    @apply text-5xl font-serif font-black text-gold-500 float-left mr-3 mt-1 leading-none;
+    text-shadow: 2px 2px 0px rgba(0,0,0,0.5), 0 0 15px rgba(255,191,0,0.3);
+  }
+
+  /* 浮动光点动画 */
+  .floating-particle {
+    @apply absolute rounded-full bg-gold-400 opacity-20 pointer-events-none blur-[1px];
+    animation: float 20s infinite linear;
+  }
+
+  @keyframes float {
+    0% { transform: translate(0, 0) rotate(0deg); opacity: 0; }
+    10% { opacity: 0.2; }
+    90% { opacity: 0.2; }
+    100% { transform: translate(var(--tw-translate-x, 100px), var(--tw-translate-y, -100px)) rotate(360deg); opacity: 0; }
+  }
+}
+
+/* 渐入效果 */
+  .fade-in-mystic {
+    animation: fadeIn 1.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  }
+
+  .glimmer-text {
+    background: linear-gradient(90deg, #ffbf00 0%, #fff 50%, #ffbf00 100%);
+    background-size: 200% auto;
+    color: transparent;
+    -webkit-background-clip: text;
+    background-clip: text;
+    animation: shine 3s linear infinite;
+  }
+
+  @keyframes shine {
+    to { background-position: 200% center; }
+  }
+
+  @keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); filter: blur(5px); }
+  to { opacity: 1; transform: translateY(0); filter: blur(0); }
+}
+
+/* 自定义滚动条 */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  @apply bg-mystic-950;
+}
+::-webkit-scrollbar-thumb {
+  @apply bg-mystic-800 hover:bg-gold-700 transition-colors;
+}
