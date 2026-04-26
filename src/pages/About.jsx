@@ -1,5 +1,5 @@
 import React from 'react';
-import { Github, Twitter, Mail, ExternalLink, Award, Code, GraduationCap, User, Scroll, Eye } from 'lucide-react';
+import { Award, GraduationCap, Scroll } from 'lucide-react';
 import baoxiangSvg from '../assets/baoxiang.svg';
 
 const About = () => {
