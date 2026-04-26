@@ -1,6 +1,6 @@
 import React from 'react';
 import { Github, Twitter, Mail, ExternalLink, Award, Code, GraduationCap, User, Scroll, Eye } from 'lucide-react';
-import BaoxiangSvg from '/baoxiang.svg';
+import baoxiangSvg from '../assets/baoxiang.svg';
 
 const About = () => {
   return (
@@ -14,7 +14,7 @@ const About = () => {
           
           <div className="w-full h-full flex items-center justify-center relative z-10">
             <img 
-              src={BaoxiangSvg}
+              src={baoxiangSvg}
               alt="Baoxiang Pattern" 
               className="w-32 h-32 drop-shadow-[0_0_15px_rgba(255,191,0,0.4)] group-hover:scale-110 group-hover:drop-shadow-[0_0_25px_rgba(255,191,0,0.6)] transition-all duration-1000"
             />
