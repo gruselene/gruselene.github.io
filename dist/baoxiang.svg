@@ -1,0 +1,33 @@
+<svg width="200" height="200" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Outer Petals -->
+  <g class="outer-petals" stroke="#FFD700" stroke-width="2" opacity="0.6">
+    <path d="M100 20 C120 40 140 40 160 20 C140 40 140 60 160 80 C140 60 120 60 100 80 C80 60 60 60 40 80 C60 60 60 40 40 20 C60 40 80 40 100 20Z" fill="#FFD700" fill-opacity="0.1" />
+    <path d="M100 20 C120 40 140 40 160 20 C140 40 140 60 160 80 C140 60 120 60 100 80 C80 60 60 60 40 80 C60 60 60 40 40 20 C60 40 80 40 100 20Z" transform="rotate(45 100 100)" fill="#FFD700" fill-opacity="0.1" />
+  </g>
+  
+  <!-- Middle Petals -->
+  <g class="middle-petals" stroke="#FFBF00" stroke-width="2.5">
+    <path d="M100 50 C115 65 130 65 145 50 C130 65 130 80 145 95 C130 80 115 80 100 95 C85 80 70 80 55 95 C70 80 70 65 55 50 C70 65 85 65 100 50Z" fill="#FFBF00" fill-opacity="0.2">
+      <animate attributeName="fill-opacity" values="0.2;0.4;0.2" dur="3s" repeatCount="indefinite" />
+    </path>
+    <path d="M100 50 C115 65 130 65 145 50 C130 65 130 80 145 95 C130 80 115 80 100 95 C85 80 70 80 55 95 C70 80 70 65 55 50 C70 65 85 65 100 50Z" transform="rotate(45 100 100)" fill="#FFBF00" fill-opacity="0.2">
+      <animate attributeName="fill-opacity" values="0.2;0.4;0.2" dur="3s" repeatCount="indefinite" begin="1.5s" />
+    </path>
+  </g>
+
+  <!-- Center Core -->
+  <circle cx="100" cy="100" r="15" fill="#FFBF00" stroke="#FFD700" stroke-width="1.5">
+    <animate attributeName="r" values="14;16;14" dur="4s" repeatCount="indefinite" />
+  </circle>
+  <circle cx="100" cy="100" r="8" fill="white" fill-opacity="0.3">
+    <animate attributeName="opacity" values="0.3;0.7;0.3" dur="2s" repeatCount="indefinite" />
+  </circle>
+
+  <!-- Intricate Lines -->
+  <g stroke="#FFD700" stroke-width="0.5" opacity="0.4">
+    <circle cx="100" cy="100" r="35" />
+    <circle cx="100" cy="100" r="65" />
+    <path d="M100 0 L100 200 M0 100 L200 100" />
+    <path d="M30 30 L170 170 M170 30 L30 170" />
+  </g>
+</svg>
