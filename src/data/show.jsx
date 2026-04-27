@@ -1,5 +1,6 @@
 // 展示方法和处理方法
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { ChevronDown, ChevronUp } from 'lucide-react';
 import * as frames from './asset/frame.jsx';
 import * as components from './asset/component.jsx';
@@ -121,12 +122,7 @@ export const renderExpandableList = (items, renderHeader, renderContent, options
   // 渲染作品项
   const renderWorkItem = (work, category) => (
     <div key={work.id} className="work-item">
-      <a 
-        href={work.url} 
-        target={work.url && !work.url.startsWith('/') ? '_blank' : undefined}
-        rel={work.url && !work.url.startsWith('/') ? 'noopener noreferrer' : undefined}
-        className="block"
-      >
+      <Link to={work.url} className="block">
         {work.title && <h3 className="work-title">{work.title}</h3>}
         {work.excerpt && <p className="work-excerpt">{work.excerpt.substring(0, 100)}...</p>}
         {(work.date || work.category) && (
@@ -136,7 +132,7 @@ export const renderExpandableList = (items, renderHeader, renderContent, options
             {work.category && work.category}
           </p>
         )}
-      </a>
+      </Link>
     </div>
   );
   
