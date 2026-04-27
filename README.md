@@ -2,6 +2,27 @@
 
 个人博客网站，展示文学作品、翻译和外部创作。
 
+## 📖 术语对照表
+
+本项目使用以下术语体系（基于用户习惯命名）：
+
+| 层级 | 用户称呼 | 代码示例 | 说明 |
+|------|----------|----------|------|
+| 第一层 | **大类** | `my-external-works`、`my-translations`、`my-literature` | 作品集页面的一级分类入口 |
+| 第二层 | **小类** | `myEnglishToChineseTranslation`、`mySCP`、`myEnglishPoem` | 大类下的二级分类 |
+| 第三层 | **作品** | `Work1`、`Poem1`、`Novel1` | 具体的内容页面 |
+
+### 导航路径示例
+- **从大类进入作品**：大类页面 → 直接点击作品链接 → 作品页面
+- **从小类进入作品**：大类页面 → 点击小类 → 小类页面 → 点击作品 → 作品页面
+
+### 页面组件对应关系
+| 页面类型 | 组件路径 | 展示函数 |
+|----------|----------|----------|
+| 大类页面 | `pages/MyLiterature/index.jsx` | `renderExpandableList` |
+| 小类页面 | `pages/MyLiterature/myEnglishPoem/index.jsx` | `renderSingleColumn` |
+| 作品页面 | `pages/MyLiterature/myEnglishPoem/Poem1.jsx` | 单篇展示 |
+
 ## ⚠️ 绝对禁止的操作
 
 ### 1. 严禁使用 gh-pages 分支构建网站！
@@ -31,11 +52,6 @@
 **后果**：
 - 导致页面导航闪烁
 - 从大类直接进入作品页面失败
-
-### 内容分类
-- **大类**：如 `my-external-works`、`my-translations` 等
-- **小类**：如 `myEnglishToChineseTranslation`、`myChineseToEnglishTranslation`、`mySCP` 等
-- **作品**：如 `Work1`、`Poem1`、`Novel1` 等
 
 ### 页面排版
 - **主页**：随机两列排版两个作品
