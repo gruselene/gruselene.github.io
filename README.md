@@ -23,6 +23,13 @@
 | 小类页面 | `pages/MyLiterature/myEnglishPoem/index.jsx` | `renderSingleColumn` |
 | 作品页面 | `pages/MyLiterature/myEnglishPoem/Poem1.jsx` | 单篇展示 |
 
+### show文件里面的方法
+- `renderWorkItem`：渲染单个作品项
+- `renderCategoryContent`：渲染分类内容区域
+- `renderExpandableList`：列表排布方法
+- `renderSingleColumn`：单列排布方法
+- `renderDoubleColumn`：双列排布方法
+
 ## ⚠️ 绝对禁止的操作
 
 ### 1. 严禁使用 gh-pages 分支构建网站！
