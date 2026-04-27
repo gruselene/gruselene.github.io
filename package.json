@@ -6,6 +6,8 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "postbuild": "node -e \"require('fs').copyFileSync('dist/index.html', '../main/404.html')\"",
+    "deploy": "npm run build && node -e \"require('fs').copyFileSync('dist/index.html', '../main/404.html')\" && cd ../main && git add -A && git commit -m \"Update 404.html from build\" && git push origin main",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
