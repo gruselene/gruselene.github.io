@@ -1,5 +1,8 @@
 import React from 'react';
-import { Award, GraduationCap, Scroll } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { Award, GraduationCap, Scroll, Calendar } from 'lucide-react';
+import { getAllCollections, getAllExperiences } from '../data/get';
+import { sortByName, renderTwoColumns, renderSingleColumn } from '../data/show.jsx';
 import baoxiangSvg from '../assets/baoxiang.svg';
 
 const About = () => {
@@ -40,27 +43,60 @@ const About = () => {
         </div>
       </section>
 
-      {/* Experience / Achievements */}
+      {/* Experience Achievements */}
       <section className="space-y-10">
         <h2 className="text-2xl font-serif font-bold text-white flex items-center gap-4">
-          <Award className="text-gold-500" />
+          <Award className="text-gold-500 flex-shrink-0" size={24} />
           <span className="tracking-widest uppercase">个人历程</span>
           <div className="h-px flex-grow bg-mystic-800"></div>
         </h2>
-        <div className="space-y-6">
-          <div className="mystic-card p-8 flex gap-6 items-start group">
-            <div className="flex-shrink-0 w-12 h-12 border border-mystic-800 flex items-center justify-center text-mystic-500 group-hover:border-gold-600/50 group-hover:text-gold-500 transition-all duration-500">
-              <GraduationCap size={24} />
-            </div>
-            <div className="space-y-2">
-              <h3 className="text-xl font-serif font-bold text-white group-hover:text-gold-400 transition-colors">本科@香港中文大学（深圳）</h3>
-              <p className="text-sm text-gold-600 font-serif tracking-widest uppercase">2023-2027：在读</p>
-              <p className="text-sm text-mystic-300 font-serif italic leading-relaxed">
-                初始的阶段，一切都显得那么地自然。
+        {renderSingleColumn(getAllExperiences(), (experience) => {
+          // 根据icon字段动态渲染图标
+          const IconComponent = {
+            'GraduationCap': GraduationCap,
+            'Award': Award,
+            'Calendar': Calendar,
+            'Scroll': Scroll
+          }[experience.icon] || GraduationCap;
+          
+          return (
+            <div className="mystic-card p-8 group">
+              <div className="flex items-center gap-4 mb-2">
+                <div className="flex-shrink-0 w-10 h-10 border border-mystic-800 flex items-center justify-center text-mystic-300 group-hover:border-gold-600/50 group-hover:text-gold-500 transition-all duration-500">
+                  <IconComponent size={20} />
+                </div>
+                <h3 className="card-title text-xl">{experience.title}</h3>
+              </div>
+              {experience.subtitle && (
+                <p className="text-sm text-gold-600 font-serif tracking-widest uppercase ml-14 mb-2">{experience.subtitle}</p>
+              )}
+              <p className="text-sm text-mystic-300 font-serif italic leading-relaxed ml-14">
+                {experience.description}
               </p>
             </div>
-          </div>
-        </div>
+          );
+        })}
+      </section>
+
+      {/* Works Collection */}
+      <section className="space-y-10">
+        <h2 className="text-2xl font-serif font-bold text-white flex items-center gap-4">
+          <Scroll className="text-gold-500 flex-shrink-0" size={24} />
+          <span className="tracking-widest uppercase">作品集</span>
+          <div className="h-px flex-grow bg-mystic-800"></div>
+        </h2>
+        {renderTwoColumns(sortByName(getAllCollections()), (collection) => (
+          <article key={collection.id} className="mystic-card group overflow-hidden">
+            <Link to={collection.url} className="block relative z-10">
+              <h3 className="card-title">
+                {collection.title}
+              </h3>
+              <p className="card-excerpt">
+                {collection.description}
+              </p>
+            </Link>
+          </article>
+        ))}
       </section>
     </div>
   );

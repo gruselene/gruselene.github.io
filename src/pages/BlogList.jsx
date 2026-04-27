@@ -1,69 +1,42 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { Calendar, Search } from 'lucide-react';
+import React, { useState } from 'react';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { Calendar, Search, BookOpen, Scroll } from 'lucide-react';
+import { getAllCollections } from '../data/get';
+import { sortByDate, renderSingleColumn, components } from '../data/show.jsx';
 
 const BlogList = () => {
-  const [searchQuery, setSearchQuery] = React.useState('');
+  const [searchQuery, setSearchQuery] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
+  const postsPerPage = 10;
+  const navigate = useNavigate();
+  const location = useLocation();
   
-  const allPosts = [
-    {
-      id: 'scp-cn-1309',
-      title: 'SCP-CN-1309：红色瓢虫拉杆箱',
-      excerpt: '所有因为工作而劳累的人，都应该进SCP-CN-1309里面来坐坐！除了骗别人钱的坏人！',
-      date: '2024.01.12',
-      category: 'SCP中文原创',
-      url: 'https://scp-wiki-cn.wikidot.com/scp-cn-1309'
-    },
-    {
-      id: 'scp-cn-2137',
-      title: 'SCP-CN-2137：臭屁的幻梦',
-      excerpt: '或许他们终将变成臭屁的幻梦！',
-      date: '2024.02.15',
-      category: 'SCP中文原创',
-      url: 'https://scp-wiki-cn.wikidot.com/scp-cn-2137'
-    },
-    {
-      id: 'scp-4237',
-      title: 'SCP-4237：何处冬眠',
-      excerpt: '寒夜寒兮风萧萧，流水沉吟梦语长。',
-      date: '2023.12.05',
-      category: 'ENG-CHI translation',
-      url: 'https://scp-wiki-cn.wikidot.com/scp-4237'
-    },
-    {
-      id: 'scp-6319',
-      title: 'SCP-6319：唱乎月光',
-      excerpt: '唱乎皓芒，与君共；唱乎白璋，与君同。',
-      date: '2023.11.20',
-      category: 'ENG-CHI translation',
-      url: 'https://scp-wiki-cn.wikidot.com/scp-6319'
-    },
-    {
-      id: 'scp-7599',
-      title: 'SCP-7599（旧）：巴达利斯克之诗',
-      excerpt: '智者善销迹，行藏有是非。缄言易免谴，沉默明哲为。然亦请宽恕，难将忠信违。把君心意宣："分裂者万岁。"',
-      date: '2023.10.15',
-      category: 'ENG-CHI translation',
-      url: 'https://scp-wiki-cn.wikidot.com/old:scp-7599'
-    },
-    {
-      id: 'ngfz-god',
-      title: 'the Sculpture from Earth,the King from Faith',
-      excerpt: 'Blind of god, scenes, far as a hundred meters come out of his sight; deaf of god, prayers, distant as ten feets can\'t reach his ears.',
-      date: '2023.09.10',
-      category: 'CHI-ENG translation',
-      url: 'https://wanderers-library.wikidot.com/ngfz-god'
-    }
-  ];
+  // Combine all works from different collections with unique IDs
+  const collections = getAllCollections();
+  const allWorksCombined = collections.flatMap(collection => 
+    collection.categories.flatMap(category => 
+      (category.works || []).map(work => ({ ...work, uniqueId: `${category.id}-${work.id}` }))
+    )
+  );
+  
+  // 根据日期排序
+  const sortedWorks = sortByDate(allWorksCombined);
 
-  const filteredPosts = allPosts.filter(post => {
+  const filteredPosts = sortedWorks.filter(post => {
     const query = searchQuery.toLowerCase();
     return (
       post.title.toLowerCase().includes(query) ||
-      post.excerpt.toLowerCase().includes(query) ||
+      (post.excerpt && post.excerpt.toLowerCase().includes(query)) ||
+      (post.content && post.content.toLowerCase().includes(query)) ||
       post.category.toLowerCase().includes(query)
     );
   });
+
+  // 分页逻辑
+  const indexOfLastPost = currentPage * postsPerPage;
+  const indexOfFirstPost = indexOfLastPost - postsPerPage;
+  const currentPosts = filteredPosts.slice(indexOfFirstPost, indexOfLastPost);
+  const totalPages = Math.ceil(filteredPosts.length / postsPerPage);
 
   return (
     <div className="space-y-24">
@@ -92,38 +65,45 @@ const BlogList = () => {
       </header>
 
       <div className="space-y-8">
-        {filteredPosts.length > 0 ? (
-          filteredPosts.map((post, index) => (
-            <React.Fragment key={post.id}>
-              {index > 0 && (
-                <div className="ornate-divider !my-4 opacity-20">
-                  <div className="ornate-symbol scale-75"></div>
-                </div>
-              )}
-              <article className="mystic-card group overflow-hidden">
-              <a href={post.url} target="_blank" rel="noopener noreferrer" className="block p-8 relative z-10">
-                <div className="flex flex-col md:flex-row md:items-center justify-between gap-8">
-                  <div className="space-y-4 flex-grow">
-                    <div className="flex items-center justify-between gap-4">
-                      <span className="text-[10px] font-serif tracking-[0.2em] text-gold-500 uppercase border-b border-gold-500/30 pb-0.5">
-                        {post.category}
-                      </span>
-                      <div className="text-[10px] text-mystic-500 uppercase tracking-widest flex items-center gap-1.5">
-                        <Calendar size={12} /> {post.date}
-                      </div>
+        {currentPosts.length > 0 ? (
+          renderSingleColumn(currentPosts, (post) => (
+            <article className="mystic-card">
+              {post.category || post.date ? (
+                <div className="card-meta">
+                  {post.category && (
+                    <span className="card-category">
+                      {post.category}
+                    </span>
+                  )}
+                  {post.date && (
+                    <div className="card-date">
+                      <Calendar size={12} className="text-gold-500/50" /> {post.date}
                     </div>
-                    <h2 className="text-2xl font-serif font-bold text-white group-hover:text-gold-400 transition-colors duration-500">
-                      {post.title}
-                    </h2>
-                    <p className="text-mystic-300 text-sm leading-relaxed font-serif italic opacity-70 line-clamp-2">
-                      {post.excerpt}
-                    </p>
-                  </div>
+                  )}
                 </div>
-              </a>
+              ) : null}
+              {post.title && (
+                <h3 className="card-title">
+                  {post.url ? (
+                    post.url.startsWith('/') ? (
+                      <Link to={post.url}>{post.title}</Link>
+                    ) : (
+                      <a href={post.url} target="_blank" rel="noopener noreferrer">{post.title}</a>
+                    )
+                  ) : (
+                    <span>{post.title}</span>
+                  )}
+                </h3>
+              )}
+              {(post.excerpt || post.content) && (
+                <p className="card-excerpt">
+                  {post.excerpt || post.content || ''}
+                </p>
+              )}
             </article>
-            </React.Fragment>
-          ))
+          ), {
+          divide: components.alienisComponent
+        })
         ) : (
           <div className="text-center py-20">
             <p className="text-mystic-300 font-serif italic opacity-60">
@@ -132,6 +112,35 @@ const BlogList = () => {
           </div>
         )}
       </div>
+
+      {/* 分页控件 */}
+      {totalPages > 1 && (
+        <div className="flex justify-center space-x-2 py-8">
+          <button 
+            onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+            disabled={currentPage === 1}
+            className="px-4 py-2 border border-mystic-800 bg-mystic-900/50 hover:border-gold-600/50 transition-all duration-500 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            Previous
+          </button>
+          {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
+            <button
+              key={page}
+              onClick={() => setCurrentPage(page)}
+              className={`px-4 py-2 border transition-all duration-500 ${currentPage === page ? 'border-gold-600 bg-gold-600/10' : 'border-mystic-800 bg-mystic-900/50 hover:border-gold-600/50'}`}
+            >
+              {page}
+            </button>
+          ))}
+          <button 
+            onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+            disabled={currentPage === totalPages}
+            className="px-4 py-2 border border-mystic-800 bg-mystic-900/50 hover:border-gold-600/50 transition-all duration-500 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            Next
+          </button>
+        </div>
+      )}
     </div>
   );
 };

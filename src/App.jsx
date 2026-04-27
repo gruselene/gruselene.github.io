@@ -4,10 +4,49 @@ import { Home as HomeIcon, BookOpen, User, Github, Twitter, Mail, Menu, X, Libra
 import HomePage from './pages/Home';
 import BlogList from './pages/BlogList';
 import About from './pages/About';
+import MyLiterature from './pages/MyLiterature';
+import MyEnglishPoem from './pages/MyLiterature/myEnglishPoem';
+import MyEnglishPoem1 from './pages/MyLiterature/myEnglishPoem/Poem1';
+import MyMetredPoem from './pages/MyLiterature/myMetredPoem';
+import MyMetredPoem1 from './pages/MyLiterature/myMetredPoem/Poem1';
+import MyNovel from './pages/MyLiterature/myNovel';
+import MyNovel1 from './pages/MyLiterature/myNovel/Novel1';
+import MyNewPoem from './pages/MyLiterature/myNewPoem';
+import MyNewPoem1 from './pages/MyLiterature/myNewPoem/Poem1';
+import MyTranslations from './pages/MyTranslations';
+import MyEnglishToChineseTranslation from './pages/MyTranslations/myEnglishToChineseTranslation';
+import MyEnglishToChineseWork1 from './pages/MyTranslations/myEnglishToChineseTranslation/Work1';
+import MyChineseToEnglishTranslation from './pages/MyTranslations/myChineseToEnglishTranslation';
+import MyChineseToEnglishWork1 from './pages/MyTranslations/myChineseToEnglishTranslation/Work1';
+import MyGermanToChineseTranslation from './pages/MyTranslations/myGermanToChineseTranslation';
+import MyGermanToChineseWork1 from './pages/MyTranslations/myGermanToChineseTranslation/Work1';
+import MyExternalWorks from './pages/MyExternalWorks';
+import MySCP from './pages/MyExternalWorks/mySCP';
+import MyWanderersLibrary from './pages/MyExternalWorks/myWanderersLibrary';
 
 const Layout = ({ children }) => {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   const location = useLocation();
+
+  // 页面跳转时滚动到顶部
+  React.useEffect(() => {
+    const scrollToTop = () => {
+      window.scrollTo({
+        top: 0,
+        left: 0,
+        behavior: 'auto'
+      });
+    };
+    
+    scrollToTop();
+    
+    // 确保在 DOM 更新后再次滚动
+    const timer = setTimeout(() => {
+      scrollToTop();
+    }, 100);
+    
+    return () => clearTimeout(timer);
+  }, [location.pathname]);
 
   const navLinks = [
     { name: 'prospicere', path: '/', icon: <HomeIcon size={16} /> },
@@ -153,10 +192,29 @@ function App() {
     <Router>
       <Layout>
         <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/blog" element={<BlogList />} />
-          <Route path="/about" element={<About />} />
-        </Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/blog" element={<BlogList />} />
+        <Route path="/my-literature" element={<MyLiterature />} />
+        <Route path="/my-literature/myEnglishPoem" element={<MyEnglishPoem />} />
+        <Route path="/my-literature/myEnglishPoem/Poem1" element={<MyEnglishPoem1 />} />
+        <Route path="/my-literature/myMetredPoem" element={<MyMetredPoem />} />
+        <Route path="/my-literature/myMetredPoem/Poem1" element={<MyMetredPoem1 />} />
+        <Route path="/my-literature/myNovel" element={<MyNovel />} />
+        <Route path="/my-literature/myNovel/Novel1" element={<MyNovel1 />} />
+        <Route path="/my-literature/myNewPoem" element={<MyNewPoem />} />
+        <Route path="/my-literature/myNewPoem/Poem1" element={<MyNewPoem1 />} />
+        <Route path="/my-translations" element={<MyTranslations />} />
+        <Route path="/my-translations/myEnglishToChineseTranslation" element={<MyEnglishToChineseTranslation />} />
+        <Route path="/my-translations/myEnglishToChineseTranslation/Work1" element={<MyEnglishToChineseWork1 />} />
+        <Route path="/my-translations/myChineseToEnglishTranslation" element={<MyChineseToEnglishTranslation />} />
+        <Route path="/my-translations/myChineseToEnglishTranslation/Work1" element={<MyChineseToEnglishWork1 />} />
+        <Route path="/my-translations/myGermanToChineseTranslation" element={<MyGermanToChineseTranslation />} />
+        <Route path="/my-translations/myGermanToChineseTranslation/Work1" element={<MyGermanToChineseWork1 />} />
+        <Route path="/my-external-works" element={<MyExternalWorks />} />
+        <Route path="/my-external-works/mySCP" element={<MySCP />} />
+        <Route path="/my-external-works/myWanderersLibrary" element={<MyWanderersLibrary />} />
+        <Route path="/about" element={<About />} />
+      </Routes>
       </Layout>
     </Router>
   );
