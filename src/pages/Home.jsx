@@ -67,7 +67,7 @@ const HomePage = () => {
       <section className="space-y-12">
         {components.alienisComponent.children}
         
-        <div className="flex flex-col items-center space-y-4">
+        <div className="flex flex-col items-center space-y-4 mt-24">
           <h2 className="text-4xl font-serif font-bold">
             <span className="bg-gradient-to-r from-gold-400 to-white bg-clip-text text-transparent">LIBRI</span>
           </h2>
@@ -75,7 +75,7 @@ const HomePage = () => {
         </div>
 
         {renderTwoColumns(featuredPosts, (post) => (
-          <article key={post.uniqueId} className="mystic-card">
+            <article key={post.uniqueId} className="mystic-card">
             {post.category || post.date ? (
               <div className="card-meta">
                 {post.category && (
